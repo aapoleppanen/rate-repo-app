@@ -68,7 +68,7 @@ const NumberHandler = (num) => {
 };
 
 const RepoListItem = ({ item }) => (
-	<View style={styles.container}>
+	<View style={styles.container} key={item.id}>
 		<View style={styles.containerTopHalf}>
 			<Image
 				style={styles.avatarImg}
