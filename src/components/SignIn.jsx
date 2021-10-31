@@ -66,14 +66,20 @@ const SignInForm = ({ onSubmit }) => {
 					name="username"
 					label="Username"
 					style={styles.input}
+					testID="username"
 				></FormikTextInput>
 				<FormikTextInput
 					name="password"
 					label="Password"
 					secureTextEntry={true}
 					style={styles.input}
+					testID="password"
 				></FormikTextInput>
-				<Pressable style={styles.button} onPress={onSubmit}>
+				<Pressable
+					style={styles.button}
+					onPress={onSubmit}
+					testID="submitButton"
+				>
 					<Text
 						style={{
 							color: theme.colors.white,
@@ -85,6 +91,18 @@ const SignInForm = ({ onSubmit }) => {
 				</Pressable>
 			</ScrollView>
 		</View>
+	);
+};
+
+export const SignInFormContainer = ({ onSubmit }) => {
+	return (
+		<Formik
+			initialValues={initialValues}
+			onSubmit={onSubmit}
+			validationSchema={validationSchema}
+		>
+			{({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+		</Formik>
 	);
 };
 
@@ -104,15 +122,7 @@ const SignIn = () => {
 		}
 	};
 
-	return (
-		<Formik
-			initialValues={initialValues}
-			onSubmit={onSubmit}
-			validationSchema={validationSchema}
-		>
-			{({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-		</Formik>
-	);
+	return <SignInFormContainer onSubmit={onSubmit}></SignInFormContainer>;
 };
 
 export default SignIn;

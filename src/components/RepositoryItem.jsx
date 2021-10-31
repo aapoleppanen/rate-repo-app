@@ -75,35 +75,47 @@ const RepoListItem = ({ item }) => (
 				source={{ uri: item.ownerAvatarUrl }}
 			></Image>
 			<View style={styles.containerTopHalfText}>
-				<SubHeading fontWeight="bold" style={styles.headingText}>
+				<SubHeading
+					fontWeight="bold"
+					style={styles.headingText}
+					testID="fullName"
+				>
 					{item.fullName}
 				</SubHeading>
-				<Text style={styles.descriptionText}>{item.description}</Text>
-				<Text style={styles.languageText}>{item.language}</Text>
+				<Text style={styles.descriptionText} testID="description">
+					{item.description}
+				</Text>
+				<Text style={styles.languageText} testID="language">
+					{item.language}
+				</Text>
 			</View>
 		</View>
 
 		<View style={styles.containerBottomhalf}>
 			<Text style={styles.bottomText}>
-				<Text style={styles.bottomText2} fontWeight="bold">
+				<Text style={styles.bottomText2} fontWeight="bold" testID="forksCount">
 					{NumberHandler(item.forksCount)}
 				</Text>
 				{"\n"} Forks
 			</Text>
 			<Text style={styles.bottomText}>
-				<Text style={styles.bottomText2} fontWeight="bold">
+				<Text style={styles.bottomText2} fontWeight="bold" testID="starCount">
 					{NumberHandler(item.stargazersCount)}
 				</Text>
 				{"\n"} Stars
 			</Text>
 			<Text style={styles.bottomText}>
-				<Text style={styles.bottomText2} fontWeight="bold">
+				<Text
+					style={styles.bottomText2}
+					fontWeight="bold"
+					testID="ratingAverage"
+				>
 					{item.ratingAverage}
 				</Text>
 				{"\n"} Rating
 			</Text>
 			<Text style={styles.bottomText}>
-				<Text style={styles.bottomText2} fontWeight="bold">
+				<Text style={styles.bottomText2} fontWeight="bold" testID="reviewCount">
 					{item.reviewCount}
 				</Text>
 				{"\n"} Reviews

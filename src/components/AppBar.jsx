@@ -13,6 +13,7 @@ import { Link } from "react-router-native";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../graphql/queries";
 import useSignOut from "../hooks/useSignout";
+import { enableExpoCliLogging } from "expo/build/logs/Logs";
 
 const styles = StyleSheet.create({
 	container: {
