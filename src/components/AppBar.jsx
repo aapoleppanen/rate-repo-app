@@ -89,7 +89,13 @@ const AppBar = () => {
 						<AppBarTab tabName="Sign Up" destination="/signup"></AppBarTab>
 					</>
 				) : (
-					<FunctionTab tabName="Sign Out" onPressFunc={signOut}></FunctionTab>
+					<>
+						<AppBarTab
+							tabName="My Reviews"
+							destination="/usersreviews"
+						></AppBarTab>
+						<FunctionTab tabName="Sign Out" onPressFunc={signOut}></FunctionTab>
+					</>
 				)}
 			</ScrollView>
 		</View>

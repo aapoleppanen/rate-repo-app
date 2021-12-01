@@ -31,7 +31,11 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-	const { repositories, loading, refetch } = useRepositories(sort);
+	const { repositories, loading, refetch, fetchMore } = useRepositories({
+		orderBy: sort == 1 ? "CREATED_AT" : "RATING_AVERAGE",
+		orderDirection: sort == 3 ? "ASC" : "DESC",
+		first: 8,
+	});
 	const [sort, setSort] = useState(1);
 	const [sortText, setSortText] = useState("Latest repositories");
 	const [search, setSearch] = useState("");
@@ -40,6 +44,14 @@ const RepositoryList = () => {
 	const [visible, setVisible] = useState(false);
 	const history = useHistory();
 
+	const onEndReach = () => {
+		fetchMore({
+			orderBy: sort == 1 ? "CREATED_AT" : "RATING_AVERAGE",
+			orderDirection: sort == 3 ? "ASC" : "DESC",
+			first: 8,
+		});
+	};
+
 	useEffect(() => {
 		if (loading == false && repositories) {
 			setRepositories(repositories);
@@ -47,14 +59,11 @@ const RepositoryList = () => {
 	}, [loading, repositories]);
 
 	useEffect(() => {
-		console.log(search);
-	}, [debouncedSearch]);
-
-	useEffect(() => {
 		refetch({
 			orderBy: sort == 1 ? "CREATED_AT" : "RATING_AVERAGE",
 			orderDirection: sort == 3 ? "ASC" : "DESC",
 			searchKeyword: debouncedSearch,
+			first: 8,
 		});
 		switch (sort) {
 			case 1:
@@ -82,6 +91,7 @@ const RepositoryList = () => {
 			setVisible={setVisible}
 			visible={visible}
 			history={history}
+			onEndReach={onEndReach}
 		></RepositoryListContainer>
 	);
 };
@@ -157,6 +167,8 @@ class RepositoryListContainer extends React.Component {
 				keyExtractor={(item) => item.id}
 				ListHeaderComponent={this.renderHeader}
 				ListHeaderComponentStyle={styles.menuHeader}
+				onEndReached={props.onEndReach}
+				onEndReachedThreshold={0.5}
 			/>
 		);
 	}

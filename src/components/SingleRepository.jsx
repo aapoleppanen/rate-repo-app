@@ -6,7 +6,7 @@ import { View, FlatList, StyleSheet, Text } from "react-native";
 import { styles } from "./RepositoryItem";
 import theme from "../theme";
 
-const rStyle = StyleSheet.create({
+export const rStyle = StyleSheet.create({
 	reviewContainer: {
 		display: "flex",
 		flexDirection: "row",
@@ -91,18 +91,24 @@ const ItemSeparator = () => <View style={styles.separator} />;
 const SingleRepoView = () => {
 	const { id } = useParams();
 
-	const { repo } = useSingleRepo(id);
+	const { repo, fetchMore } = useSingleRepo(id);
 
 	const reviews = repo ? repo.reviews.edges.map((edge) => edge.node) : [];
+
+	const onEndReach = () => {
+		fetchMore();
+	};
 
 	return (
 		<FlatList
 			data={reviews}
 			ItemSeparatorComponent={ItemSeparator}
 			renderItem={({ item }) => <SingleReview review={item} />}
-			keyExtractor={({ id }) => id}
+			keyExtractor={(item) => item.id}
 			ListHeaderComponent={() => <RepositoryInfo repo={repo} />}
 			ListHeaderComponentStyle={{ marginBottom: 10 }}
+			onEndReachedThreshold={0.5}
+			onEndReached={onEndReach}
 		/>
 	);
 };
