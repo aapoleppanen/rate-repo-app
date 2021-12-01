@@ -13,7 +13,6 @@ import { Link } from "react-router-native";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../graphql/queries";
 import useSignOut from "../hooks/useSignout";
-import { enableExpoCliLogging } from "expo/build/logs/Logs";
 
 const styles = StyleSheet.create({
 	container: {
@@ -80,8 +79,15 @@ const AppBar = () => {
 		<View style={styles.container}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<AppBarTab tabName="Repositories" destination="/"></AppBarTab>
+				<AppBarTab
+					tabName="Create a review"
+					destination="/createreview"
+				></AppBarTab>
 				{data.authorizedUser === null ? (
-					<AppBarTab tabName="Sign In" destination="/signin"></AppBarTab>
+					<>
+						<AppBarTab tabName="Sign In" destination="/signin"></AppBarTab>
+						<AppBarTab tabName="Sign Up" destination="/signup"></AppBarTab>
+					</>
 				) : (
 					<FunctionTab tabName="Sign Out" onPressFunc={signOut}></FunctionTab>
 				)}

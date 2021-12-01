@@ -3,7 +3,10 @@ import { StyleSheet, View } from "react-native";
 import { Redirect, Route, Switch } from "react-router-native";
 import AppBar from "./AppBar";
 import RepositoryList from "./RepositoryList";
+import SingleRepoView from "./SingleRepository";
 import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import CreateReview from "./reviewForm";
 
 const styles = StyleSheet.create({
 	container: {
@@ -13,17 +16,22 @@ const styles = StyleSheet.create({
 	},
 });
 
-//todo
-// flatlist : w/ repo full name, description, language, number of forks
-// number of stars, rating average, number of reviews
-
 const Main = () => {
 	return (
 		<View style={styles.container}>
 			<AppBar></AppBar>
 			<Switch>
+				<Route path="/repo/:id">
+					<SingleRepoView></SingleRepoView>
+				</Route>
 				<Route path="/signin">
 					<SignIn></SignIn>
+				</Route>
+				<Route path="/createreview">
+					<CreateReview></CreateReview>
+				</Route>
+				<Route path="/signup">
+					<SignUp></SignUp>
 				</Route>
 				<Route path="/">
 					<RepositoryList></RepositoryList>

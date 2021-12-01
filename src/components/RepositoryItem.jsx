@@ -1,9 +1,16 @@
-import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import React, { useCallback } from "react";
+import {
+	View,
+	StyleSheet,
+	Image,
+	Linking,
+	Alert,
+	Pressable,
+} from "react-native";
 import theme from "../theme";
 import Text, { SubHeading } from "./Text";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
 	separator: {
 		height: 10,
 	},
@@ -59,12 +66,50 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		lineHeight: 30,
 	},
+	linkContainer: {
+		padding: 5,
+		backgroundColor: theme.colors.primary,
+		borderRadius: 5,
+		marginTop: 10,
+	},
+	linkHidden: {
+		display: "none",
+		width: 0,
+		height: 0,
+		opacity: 0,
+	},
+	linkButton: {
+		color: theme.colors.white,
+		padding: 5,
+		textAlign: "center",
+	},
 });
 
 const NumberHandler = (num) => {
 	return Math.abs(num) > 999
 		? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
 		: Math.sign(num) * Math.abs(num);
+};
+
+const UrlButton = ({ url, text }) => {
+	const show = typeof url == "undefined";
+	const urlStyle = [styles.linkButton, show && styles.linkHidden];
+
+	const handlePress = useCallback(async () => {
+		const supported = await Linking.canOpenURL(url);
+
+		if (supported) {
+			await Linking.openURL(url);
+		} else {
+			Alert.alert(`Don't know how to open this URL: ${url}`);
+		}
+	}, [url]);
+
+	return (
+		<Pressable onPress={handlePress} style={urlStyle}>
+			<Text style={urlStyle}>{text}</Text>
+		</Pressable>
+	);
 };
 
 const RepoListItem = ({ item }) => (
@@ -120,6 +165,15 @@ const RepoListItem = ({ item }) => (
 				</Text>
 				{"\n"} Reviews
 			</Text>
+		</View>
+		<View
+			style={
+				typeof item.url == "undefined"
+					? styles.linkHidden
+					: styles.linkContainer
+			}
+		>
+			<UrlButton url={item.url} text="Open in GitHub"></UrlButton>
 		</View>
 	</View>
 );
